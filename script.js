@@ -4,7 +4,7 @@ var app = new function() {
 
     this.FetchAll = async function() {
         try {
-            let response = await fetch('localhost:3001/api/birds'); // replace with your API endpoint
+            let response = await fetch('http://localhost:3001/api/birds');
             this.birds = await response.json();
 
             let data = '';
@@ -26,7 +26,7 @@ var app = new function() {
         const birdName = document.getElementById('watching').value;
         if (birdName) {
             try {
-                await fetch('localhost:3001/api/birds', { // replace with your API endpoint
+                await fetch('http://localhost:3001/api/birds', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ name: birdName })
@@ -39,18 +39,32 @@ var app = new function() {
     };
 
     this.Edit = async function(id) {
-        // Here, I assume you'd fetch the specific bird, edit it and then send an update.
-        // This is a bit more involved than other operations.
-        // As a starter, here's how you'd fetch a specific bird:
         const bird = this.birds.find(b => b.id === id);
-        if (bird) {
-            // Code to edit and send the update would go here
+        if (!bird) return;
+
+        // Prompt the user to edit the bird's name
+        const newName = prompt("Edit bird name", bird.name);
+
+        // If the user cancels the prompt or doesn't change the value, don't proceed
+        if (!newName || newName === bird.name) return;
+
+        try {
+            await fetch('http://localhost:3001/api/birds/' + id, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name: newName })
+            });
+
+            this.FetchAll();
+        } catch (error) {
+            console.error("Error updating bird:", error);
         }
     };
 
+
     this.Delete = async function(id) {
         try {
-            await fetch('localhost:3001/api/birds/' + id, { // replace with your API endpoint
+            await fetch('http://localhost:3001/api/birds/' + id, {
                 method: 'DELETE'
             });
             this.FetchAll();
