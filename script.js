@@ -4,7 +4,7 @@ var app = new function() {
 
     this.FetchAll = async function() {
         try {
-            let response = await fetch('/api/birds'); // replace with your API endpoint
+            let response = await fetch('localhost:3001/api/birds'); // replace with your API endpoint
             this.birds = await response.json();
 
             let data = '';
@@ -26,7 +26,7 @@ var app = new function() {
         const birdName = document.getElementById('watching').value;
         if (birdName) {
             try {
-                await fetch('/api/birds', { // replace with your API endpoint
+                await fetch('localhost:3001/api/birds', { // replace with your API endpoint
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ name: birdName })
@@ -50,7 +50,7 @@ var app = new function() {
 
     this.Delete = async function(id) {
         try {
-            await fetch('/api/birds/' + id, { // replace with your API endpoint
+            await fetch('localhost:3001/api/birds/' + id, { // replace with your API endpoint
                 method: 'DELETE'
             });
             this.FetchAll();
