@@ -4,7 +4,7 @@ var app = new function() {
 
     this.FetchAll = async function() {
         try {
-            let response = await fetch('http://localhost:3001/api/birds');
+            let response = await fetch('https://birding-b6b6fd8e3a47.herokuapp.com/');
             this.birds = await response.json();
 
             let data = '';
@@ -26,7 +26,7 @@ var app = new function() {
         const birdName = document.getElementById('watching').value;
         if (birdName) {
             try {
-                await fetch('http://localhost:3001/api/birds', {
+                await fetch('https://birding-b6b6fd8e3a47.herokuapp.com/', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ name: birdName })
@@ -49,7 +49,7 @@ var app = new function() {
         if (!newName || newName === bird.name) return;
 
         try {
-            await fetch('http://localhost:3001/api/birds/' + id, {
+            await fetch('https://birding-b6b6fd8e3a47.herokuapp.com/' + id, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ name: newName })
@@ -64,7 +64,7 @@ var app = new function() {
 
     this.Delete = async function(id) {
         try {
-            await fetch('http://localhost:3001/api/birds/' + id, {
+            await fetch('https://birding-b6b6fd8e3a47.herokuapp.com/' + id, {
                 method: 'DELETE'
             });
             this.FetchAll();
